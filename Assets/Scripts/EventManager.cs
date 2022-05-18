@@ -17,15 +17,15 @@ public class EventManager : MonoBehaviour
         OnTriggerCheckPoint?.Invoke();
     }
     
-    public static void TriggerUnScuccess()
+    public static void TriggerUnSucccess()
     {
         OnTriggerUnSuccess?.Invoke();
     }
-    public static void TriggerUnScuccessName(string name)
+    public static void TriggerUnSucccessName(string name)
     {
         OnTriggerUnSuccessName?.Invoke(name);
     }
-    public static void TriggerLastChecPoint()
+    public static void TriggerLastCheckPoint()
     {
         OnTriggerLastCheckPoint?.Invoke();
     }

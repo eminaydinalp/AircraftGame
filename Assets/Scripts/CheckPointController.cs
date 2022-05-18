@@ -14,12 +14,20 @@ public class CheckPointController : MonoBehaviour
             EventManager.TriggerCheckPoint();
         }
 
+        if (other.CompareTag("LastCheckPoint"))
+        {
+            isCheck = true;
+            particleManager.starParticlePosition = other.transform.position;
+            EventManager.TriggerCheckPoint();
+            EventManager.TriggerLastCheckPoint();
+        }
+
         if (!other.CompareTag("UnSuccess")) return;
         if (!isCheck)
         {
             Debug.Log("UnSuccesss Triggered");
-            EventManager.TriggerUnScuccess();
-            EventManager.TriggerUnScuccessName("UnSuccess");
+            EventManager.TriggerUnSucccess();
+            EventManager.TriggerUnSucccessName("UnSuccess");
         }
         else
         {

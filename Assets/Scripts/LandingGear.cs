@@ -20,9 +20,7 @@ public class LandingGear : MonoBehaviour
 
     public float raiseAtAltitude = 40;
     public float lowerAtAltitude = 40;
-
-    public bool isLandPitch;
-
+    
     public GearState m_State = GearState.Lowered;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
@@ -39,10 +37,12 @@ public class LandingGear : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnTriggerLastCheckPoint += Landing;
+        EventManager.OnTriggerFinishLine += StopAircraft;
     }
     private void OnDisable()
     {
         EventManager.OnTriggerLastCheckPoint -= Landing;
+        EventManager.OnTriggerFinishLine -= StopAircraft;
     }
 
 
@@ -66,19 +66,15 @@ public class LandingGear : MonoBehaviour
     private void Landing()
     {
         m_Plane.isLanding = true;
-        isLandPitch = true;
         m_Plane.sphereCollider.enabled = true;
         m_Rigidbody.velocity = m_Rigidbody.velocity / 3f;
         transform.rotation = Quaternion.Euler(0, 0,0);
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        StartCoroutine(Cr());
-        //transform.DORotateQuaternion(Quaternion.Euler(10f, 0, 0), 5f).OnComplete(() => m_Rigidbody.constraints = RigidbodyConstraints.None);
+      
     }
 
-    IEnumerator Cr()
+    private void StopAircraft()
     {
-        yield return new WaitForSeconds(5f);
-        m_Rigidbody.constraints = RigidbodyConstraints.None;
-        isLandPitch = false;
+        m_Rigidbody.velocity = Vector3.zero;
     }
 }

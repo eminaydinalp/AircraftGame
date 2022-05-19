@@ -12,14 +12,24 @@ public class AeroplaneUserControl2Axis : MonoBehaviour
 
     // reference to the aeroplane that we're controlling
     private AeroplaneController m_Aeroplane;
-    private LandingGear _landingGear;
     [SerializeField] private FixedJoystick _fixedJoystick;
 
     private void Awake()
     {
         // Set up the reference to the aeroplane controller.
         m_Aeroplane = GetComponent<AeroplaneController>();
-        _landingGear = GetComponent<LandingGear>();
+    }
+    private void OnEnable()
+    {
+        EventManager.OnTriggerLastCheckPoint += CloseJoystick;
+    }
+    private void OnDisable()
+    {
+        EventManager.OnTriggerLastCheckPoint -= CloseJoystick;
+    }
+    private void CloseJoystick()
+    {
+        _fixedJoystick.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -33,11 +43,6 @@ public class AeroplaneUserControl2Axis : MonoBehaviour
         float throttle = airBrakes ? -1 : 1;
 #if MOBILE_INPUT
         AdjustInputForMobileControls(ref roll, ref pitch, ref throttle);
-
-        if (_landingGear.isLandPitch)
-        {
-            pitch = Mathf.Lerp(pitch, 1, 1 * Time.deltaTime);
-        }
 #endif
         // Pass the input to the aeroplane
         m_Aeroplane.Move(roll, pitch, 0, throttle, airBrakes);

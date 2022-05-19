@@ -18,10 +18,12 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnTriggerFinishLine += Win;
+        EventManager.OnGameOver += Fail;
     }
     private void OnDisable()
     {
         EventManager.OnTriggerFinishLine -= Win;
+        EventManager.OnGameOver -= Fail;
     }
 
     private void Update()
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(2f);
         gameOver.SetActive(true);
         winUI.SetActive(false);
     }

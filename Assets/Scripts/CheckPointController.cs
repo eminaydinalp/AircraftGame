@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class CheckPointController : MonoBehaviour
 {
     [SerializeField] private ParticleManager particleManager;
     public bool isCheck;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("CheckPoint"))
@@ -18,18 +20,25 @@ public class CheckPointController : MonoBehaviour
         {
             isCheck = true;
             particleManager.starParticlePosition = other.transform.position;
-            EventManager.TriggerCheckPoint();
             EventManager.TriggerLastCheckPoint();
         }
 
-        if (!other.CompareTag("UnSuccess")) return;
-        if (!isCheck)
+        if (other.CompareTag("UnSuccess") && !isCheck)
         {
             Debug.Log("UnSuccesss Triggered");
             EventManager.TriggerUnSucccess();
-            EventManager.TriggerUnSucccessName("UnSuccess");
         }
-        else
+
+        if (other.CompareTag("GameOver") && !isCheck)
+        {
+            Debug.Log("Game Over");
+            EventManager.GameOver();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("UnSuccess"))
         {
             isCheck = false;
         }

@@ -11,6 +11,7 @@ public class EventManager : MonoBehaviour
     public static Action OnTriggerLastCheckPoint;
     public static Action OnTriggerFinishLine;
     public static Action OnMoveAwayMap;
+    public static Action OnGameOver;
 
     public static void TriggerCheckPoint()
     {
@@ -36,5 +37,9 @@ public class EventManager : MonoBehaviour
     public static void MoveAwayFromMap()
     {
         OnMoveAwayMap?.Invoke();
+    }
+    public static void GameOver()
+    {
+        OnGameOver?.Invoke();
     }
 }

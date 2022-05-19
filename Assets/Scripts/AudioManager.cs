@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    private static AudioManager instance;
     public Sound[] sounds;
 
     private void Awake()
@@ -32,19 +32,36 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        EventManager.OnTriggerUnSuccess += PlayUnSuccess;
+        EventManager.OnGameOver += PlayGameOver;
+    }
+    private void OnDisable()
+    {
+        EventManager.OnTriggerUnSuccess -= PlayUnSuccess;
+        EventManager.OnGameOver -= PlayGameOver;
+    }
+    
+    private void PlayUnSuccess()
+    {
+        Play("UnSuccess");
+    }
+
+    private void PlayGameOver()
+    {
+        StartCoroutine(PlayGameOverAsyc());
+    }
+
+    private IEnumerator PlayGameOverAsyc()
+    {
+        yield return new WaitForSeconds(1f);
+        //Play("GameOver");
+    }
     private void Play(string name)
     {
         Sound sound = Array.Find(sounds, sound => sound.name == name);
         sound.source.Play();
-    }
-
-    private void OnEnable()
-    {
-        EventManager.OnTriggerUnSuccessName += Play;
-    }
-    private void OnDisable()
-    {
-        EventManager.OnTriggerUnSuccessName -= Play;
     }
     
 }

@@ -38,11 +38,15 @@ public class LandingGear : MonoBehaviour
     {
         EventManager.OnTriggerLastCheckPoint += Landing;
         EventManager.OnTriggerFinishLine += StopAircraft;
+        EventManager.OnGameOver += StopAircraft;
+        EventManager.OnGameOver += BoomAircraft;
     }
     private void OnDisable()
     {
         EventManager.OnTriggerLastCheckPoint -= Landing;
         EventManager.OnTriggerFinishLine -= StopAircraft;
+        EventManager.OnGameOver -= StopAircraft;
+        EventManager.OnGameOver -= BoomAircraft;
     }
 
 
@@ -76,5 +80,10 @@ public class LandingGear : MonoBehaviour
     private void StopAircraft()
     {
         m_Rigidbody.velocity = Vector3.zero;
+    }
+
+    private void BoomAircraft()
+    {
+        transform.DOScale(Vector3.zero, 1.2f).OnComplete(() => gameObject.SetActive(false));
     }
 }

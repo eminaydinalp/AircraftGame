@@ -7,12 +7,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public GameObject confetti, levelPassed, gameOver, ingamesScreen, startPanel;
+    public GameObject  winUI, gameOver, startPanel;
     public bool isFinish;
     
     private void Awake()
     {
         Instance = this;
+    }
+    
+    private void OnEnable()
+    {
+        EventManager.OnTriggerFinishLine += Win;
+    }
+    private void OnDisable()
+    {
+        EventManager.OnTriggerFinishLine -= Win;
     }
 
     private void Update()
@@ -20,7 +29,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !isFinish)
         {
             startPanel.SetActive(false);
-            ingamesScreen.SetActive(true);
         }
     }
 
@@ -38,9 +46,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(.1f);
-        ingamesScreen.SetActive(false);
         gameOver.SetActive(true);
-        levelPassed.SetActive(false);
+        winUI.SetActive(false);
     }
     
     public void Win()
@@ -49,18 +56,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(nameof(CompleteLevel));
     }
     
-    IEnumerator KonfettiPatlat()
-    {
-        yield return new WaitForSeconds(0.3f);
-        confetti.SetActive(true);
-    }
 
     public IEnumerator CompleteLevel()
     {
         yield return new WaitForSeconds(0.1f);
-        ingamesScreen.SetActive(false);
-        StartCoroutine(KonfettiPatlat());
-        levelPassed.SetActive(true);
+        winUI.SetActive(true);
         gameOver.SetActive(false);
     }
 }

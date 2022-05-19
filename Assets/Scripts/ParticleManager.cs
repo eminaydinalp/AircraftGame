@@ -22,7 +22,7 @@ public class ParticleManager : MonoBehaviour
 
     private void OpenStarParticle()
     {
-        starParticle.transform.position = starParticlePosition + Vector3.forward * 10f;
+        starParticle.transform.position = starParticlePosition + Vector3.forward * 30f;
         starParticle.SetActive(true);
         StartCoroutine(InActiveParticle(starParticle, 3f));
     }

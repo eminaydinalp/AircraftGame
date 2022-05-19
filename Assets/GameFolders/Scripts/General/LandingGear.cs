@@ -71,7 +71,8 @@ public class LandingGear : MonoBehaviour
     {
         m_Plane.isLanding = true;
         m_Plane.sphereCollider.enabled = true;
-        m_Rigidbody.velocity = m_Rigidbody.velocity / 3f;
+        Physics.gravity = Vector3.down * 50f;
+        if (m_Plane.maxEngine.value > 80f) m_Plane.maxEngine.value= 80f;
         transform.rotation = Quaternion.Euler(0, 0,0);
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
       

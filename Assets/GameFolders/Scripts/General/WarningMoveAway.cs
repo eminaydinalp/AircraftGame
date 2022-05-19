@@ -10,18 +10,30 @@ public class WarningMoveAway : MonoBehaviour
 
     private bool _isExitMap;
     private float _time;
-    private float _moveAwayTime = 10f;
+    [SerializeField] private float moveAwayTime = 5f;
+    [SerializeField] private float duration = 5f;
 
     private void Update()
     {
+        if(GameManager.Instance.isFinish) return;
+        
         if (_isExitMap)
         {
             _time += Time.deltaTime;
         }
 
-        if (_time > _moveAwayTime)
+        if (_time > moveAwayTime)
         {
             restartText.gameObject.SetActive(true);
+            duration -= Time.deltaTime;
+            warningText.text = "We will have to return or it will be a fail ! " + Mathf.FloorToInt(duration);
+        }
+
+        if (duration <= 0)
+        {
+            warningText.gameObject.SetActive(false);
+            restartText.gameObject.SetActive(false);
+            EventManager.GameOver();
         }
     }
 

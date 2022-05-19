@@ -32,6 +32,11 @@ public class GameManager : MonoBehaviour
         {
             startPanel.SetActive(false);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+        }
     }
 
     public void Restart()

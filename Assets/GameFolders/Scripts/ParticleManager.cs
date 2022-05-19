@@ -53,10 +53,10 @@ public class ParticleManager : MonoBehaviour
 
     private void OpenGameOverParticle()
     {
-        StartCoroutine(OpenGameOverParticleAsyc());
+        StartCoroutine(OpenGameOverParticleAsync());
     }
 
-    private IEnumerator OpenGameOverParticleAsyc()
+    private IEnumerator OpenGameOverParticleAsync()
     {
         yield return new WaitForSeconds(.5f);
         failParticle.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;

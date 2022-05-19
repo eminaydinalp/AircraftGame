@@ -50,10 +50,10 @@ public class AudioManager : MonoBehaviour
 
     private void PlayGameOver()
     {
-        StartCoroutine(PlayGameOverAsyc());
+        StartCoroutine(PlayGameOverAsync());
     }
 
-    private IEnumerator PlayGameOverAsyc()
+    private IEnumerator PlayGameOverAsync()
     {
         yield return new WaitForSeconds(1f);
         //Play("GameOver");

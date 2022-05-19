@@ -7,6 +7,7 @@ public class WarningMoveAway : MonoBehaviour
 {
     [SerializeField] private Text warningText;
     [SerializeField] private Text restartText;
+    [SerializeField] private Text counterText;
 
     private bool _isExitMap;
     private float _time;
@@ -26,11 +27,12 @@ public class WarningMoveAway : MonoBehaviour
         {
             restartText.gameObject.SetActive(true);
             duration -= Time.deltaTime;
-            warningText.text = "We will have to return or it will be a fail ! " + Mathf.FloorToInt(duration);
+            counterText.text = Mathf.FloorToInt(duration).ToString();
         }
 
         if (duration <= 0)
         {
+            counterText.text = "";
             warningText.gameObject.SetActive(false);
             restartText.gameObject.SetActive(false);
             EventManager.GameOver();
@@ -44,6 +46,7 @@ public class WarningMoveAway : MonoBehaviour
             _isExitMap = false;
             warningText.gameObject.SetActive(false);
             restartText.gameObject.SetActive(false);
+            counterText.text = "";
             _time = 0;
         }
     }
